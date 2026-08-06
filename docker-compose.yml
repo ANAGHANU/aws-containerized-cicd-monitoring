@@ -1,7 +1,8 @@
 services:
 
   app:
-    build: .
+    #build: .
+    image: 340593397664.dkr.ecr.ap-south-2.amazonaws.com/task-manager:latest
     container_name: task-manager
 
     ports:
