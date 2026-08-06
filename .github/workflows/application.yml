@@ -1,87 +1,61 @@
-name: Application CI/CD
+name: Build, Push and Deploy
 
 on:
   push:
     branches:
       - main
 
-    paths:
-      - "app.py"
-      - "Dockerfile"
-      - "requirements.txt"
-      - "docker-compose.yml"
-      - "prometheus/**"
-      - ".github/workflows/app-deploy.yml"
-
 jobs:
-
   deploy:
-
     runs-on: ubuntu-latest
 
     steps:
-
+      # Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Configure AWS credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
-
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # Login to Amazon ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
+      # Build Docker Image
       - name: Build Docker Image
-
         run: |
+          docker build -t task-manager .
 
-          docker build \
-          -t task-manager:latest \
-          .
-
+      # Tag Docker Image
       - name: Tag Docker Image
-
         run: |
-
           docker tag task-manager:latest \
           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/task-manager:latest
 
-          docker tag task-manager:latest \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/task-manager:${{ github.sha }}
-
-      - name: Push Docker Images
-
+      # Push Docker Image to ECR
+      - name: Push Docker Image
         run: |
-
           docker push \
           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/task-manager:latest
 
-          docker push \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/task-manager:${{ github.sha }}
-
+      # Deploy to EC2
       - name: Deploy to EC2
-
-        uses: appleboy/ssh-action@v1.0.3
-
+        uses: appleboy/ssh-action@v1.2.0
         with:
-
           host: ${{ secrets.EC2_HOST }}
-
           username: ${{ secrets.EC2_USER }}
-
           key: ${{ secrets.EC2_SSH_KEY }}
 
           script: |
-
             cd ~/CICD
+
+            git pull origin main
 
             docker compose pull
 
