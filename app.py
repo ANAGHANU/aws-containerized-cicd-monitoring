@@ -76,7 +76,7 @@ def after_request(response):
 @app.route("/")
 def home():
     return jsonify({
-        "message": "DevOps Task Manager API v2:latest",
+        "message": "DevOps Task Manager API v2",
         "status": "running"
     })
 
