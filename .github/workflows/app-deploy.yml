@@ -81,7 +81,7 @@ jobs:
 
           script: |
 
-            cd ~/devops-task-manager
+            cd ~/CICD
 
             docker compose pull
 
