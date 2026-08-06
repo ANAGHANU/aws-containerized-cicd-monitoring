@@ -1,0 +1,6 @@
+venv/
+.git/
+__pycache__/
+tasks.db
+logs/
+.env

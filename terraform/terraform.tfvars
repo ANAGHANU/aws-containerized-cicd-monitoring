@@ -1,0 +1,7 @@
+key_name          = "Devops"
+aws_region        = "ap-south-2"
+availability_zone = "ap-south-2a"
+instance_type     = "t3.micro"
+vpc_cidr          = "10.0.0.0/16"
+subnet_cidr       = "10.0.1.0/24"
+my_ip             = "103.161.54.33/32"
