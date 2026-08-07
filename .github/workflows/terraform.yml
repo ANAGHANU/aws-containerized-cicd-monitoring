@@ -2,9 +2,9 @@ name: Terraform CI/CD
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
     paths:
       - "terraform/**"
