@@ -217,7 +217,7 @@ resource "aws_security_group" "web" {
   }
 
   tags = {
-    Name = "devops-sg"
+    Name = "devops-new-sg"
   }
 }
 

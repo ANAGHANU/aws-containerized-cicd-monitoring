@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+    paths:
+      - "app.py"
+      - "requirements.txt"
+      - "Dockerfile"
+      - "docker-compose.yml"
+      - "prometheus/**"
+      - ".github/workflows/application.yml"
 
 jobs:
   deploy:
