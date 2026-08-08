@@ -1,10 +1,39 @@
-# DevOps Task Manager Project Guide (Phase 1 → Phase 9)
+# DevOps Task Manager Project Guide
+
+# CICD DevOps Project
+
+## Project Architecture
+
+Developer
+    |
+    | git push
+    v
+GitHub
+    |
+    v
+GitHub Actions
+    |
+    +---- Build Docker Image
+    |
+    +---- Push Image
+    |         |
+    |         v
+    |       ECR
+    |
+    +---- SSH to EC2
+              |
+              v
+        Docker Compose
+              |
+        +-----+-----+
+        |           |
+      Flask      Monitoring
+                   |
+            +------+------+
+            |             |
+        Prometheus      Grafana
 
 ## Project Overview
-
-This guide summarizes everything completed through **Phase 9** of the
-project.
-
 Topics covered:
 
 -   Git & GitHub
@@ -19,7 +48,6 @@ Topics covered:
 -   AWS EC2
 -   Amazon ECR
 -   GitHub Actions
--   Nginx Reverse Proxy
 
 ------------------------------------------------------------------------
 
@@ -282,21 +310,6 @@ Store secrets in GitHub Repository Secrets.
 
 ------------------------------------------------------------------------
 
-## Nginx Reverse Proxy
-
-Nginx listens on the public HTTP port and forwards requests to the Flask
-application over the internal Docker network.
-
-    Internet
-       |
-    Nginx (80)
-       |
-    Docker Network
-       |
-    Flask (5000)
-
-------------------------------------------------------------------------
-
 ## Best Practices
 
 -   Never commit GitHub tokens, AWS keys, or private keys.
@@ -306,8 +319,6 @@ application over the internal Docker network.
 
 ------------------------------------------------------------------------
 
-# End of Phase 9
-
 At this point the project supports:
 
 -   Infrastructure provisioning with Terraform
@@ -315,4 +326,33 @@ At this point the project supports:
 -   Image storage in Amazon ECR
 -   Automated deployment with GitHub Actions
 -   Monitoring with Prometheus and Grafana
--   Secure public access through Nginx Reverse Proxy
+
+------------------------------------------------------------------------
+
+## What I Learned
+
+- Created AWS networking manually using VPC, subnet,
+  route table and Internet Gateway.
+- Deployed Flask manually to EC2.
+- Managed Linux processes using Bash.
+- Containerized the application using Docker.
+- Used Docker Compose for multi-container deployment.
+- Added Prometheus and Grafana monitoring.
+- Recreated AWS infrastructure using Terraform.
+- Stored Docker images in Amazon ECR.
+- Used an EC2 IAM role to authenticate with ECR.
+- Built CI/CD using GitHub Actions.
+- Automatically built and pushed Docker images to ECR.
+- Automatically deployed updated images to EC2.
+
+------------------------------------------------------------------------
+
+AWS CI/CD DevOps Project
+
+Built and deployed a containerized Flask application on AWS EC2 using Docker, Docker Compose, and Amazon ECR, with infrastructure provisioned through Terraform.
+Implemented GitHub Actions CI/CD to automatically build and push Docker images to ECR and deploy application updates to EC2; integrated Prometheus and Grafana for application and infrastructure monitoring.
+
+
+Interview — short explanation
+
+"I built an end-to-end CI/CD project for a Flask-based task management application. I first created the AWS infrastructure using VPC, subnet, Internet Gateway, Security Groups, and EC2, then containerized the application with Docker and managed the application and monitoring stack using Docker Compose. I used Amazon ECR to store Docker images and an IAM role on EC2 for secure ECR access. Finally, I implemented GitHub Actions so that whenever I push code to the main branch, it builds the Docker image, pushes it to ECR, and connects to EC2 to pull and deploy the updated image. I also integrated Prometheus and Grafana for monitoring."
