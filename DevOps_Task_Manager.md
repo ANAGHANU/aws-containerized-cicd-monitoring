@@ -352,6 +352,34 @@ AWS CI/CD DevOps Project
 Built and deployed a containerized Flask application on AWS EC2 using Docker, Docker Compose, and Amazon ECR, with infrastructure provisioned through Terraform.
 Implemented GitHub Actions CI/CD to automatically build and push Docker images to ECR and deploy application updates to EC2; integrated Prometheus and Grafana for application and infrastructure monitoring.
 
+------------------------------------------------------------------------
+
+GitHub Actions SSH deployment to an EC2 instance using an SSH key pair.
+
+The flow is:
+
+Generate SSH key pair
+id_rsa → private key
+id_rsa.pub → public key
+Configure EC2
+Add the public key to ~/.ssh/authorized_keys
+This tells EC2 to trust that key.
+Configure GitHub Secrets
+Store the private key (id_rsa) as a GitHub Secret.
+GitHub Actions uses it to authenticate to EC2.
+
+GitHub Actions connects to EC2
+
+GitHub Actions
+     │
+     │ SSH using private key
+     ▼
+   EC2
+What you'd call this in your project README
+
+A good section name would be:
+
+Configure SSH Key-Based Authentication for GitHub Actions
 
 Interview — short explanation
 
