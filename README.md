@@ -381,6 +381,6 @@ A good section name would be:
 
 Configure SSH Key-Based Authentication for GitHub Actions
 
-Interview — short explanation
+Short explanation
 
 "I built an end-to-end CI/CD project for a Flask-based task management application. I first created the AWS infrastructure using VPC, subnet, Internet Gateway, Security Groups, and EC2, then containerized the application with Docker and managed the application and monitoring stack using Docker Compose. I used Amazon ECR to store Docker images and an IAM role on EC2 for secure ECR access. Finally, I implemented GitHub Actions so that whenever I push code to the main branch, it builds the Docker image, pushes it to ECR, and connects to EC2 to pull and deploy the updated image. I also integrated Prometheus and Grafana for monitoring."
